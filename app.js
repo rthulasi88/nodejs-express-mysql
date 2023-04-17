@@ -5,6 +5,7 @@ const port = 3000;
 
 const programmingLanguagesRouter = require("./routes/programmingLanguages");
 
+const ClassModel = require("./Models/Class");
 app.use(express.json());
 app.use(
     express.urlencoded({
@@ -24,6 +25,13 @@ app.use((err, req, res, next) => {
     return;
 });
 app.listen(port, () => {
+    /**
+     * Syncronize the models.
+     */
+    ClassModel.sync({
+        alter: true,
+    });
+
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
