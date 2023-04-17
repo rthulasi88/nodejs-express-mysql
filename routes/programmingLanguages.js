@@ -2,12 +2,39 @@ const express = require('express');
 const router = express.Router();
 const programmingLanguages = require('../services/programmingLanguage');
 
-/* GET programming languages. */
+/* GET all programming languages. */
 router.get('/', async function(req, res, next) {
     try {
         res.json(await programmingLanguages.getMultiple(req.query.page));
     } catch (err) {
         console.error(`Error while getting programming languages `, err.message);
+        next(err);
+    }
+});
+
+router.get('/getAll', async function(req, res, next) {
+    try {
+        res.json(await programmingLanguages.getAll());
+    } catch (err) {
+        console.error(`Error while getting programming languages `, err.message);
+        next(err);
+    }
+});
+
+router.get('/create', async function(req, res, next) {
+    try {
+        res.json(await programmingLanguages.createData());
+    } catch (err) {
+        console.error(`Error while getting programming languages `, err.message);
+        next(err);
+    }
+});
+
+router.get('/:id', async function(req, res) {
+    try {
+        res.json(await programmingLanguages.getById(req.params.id));
+    } catch (err) {
+        console.error(`Error while deleting programming language`, err.message);
         next(err);
     }
 });

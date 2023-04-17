@@ -1,6 +1,7 @@
 const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
+const ClassModel = require("../models/Class");
 
 async function getMultiple(page = 1){
     const offset = helper.getOffset(page, config.listPerPage);
@@ -16,7 +17,6 @@ async function getMultiple(page = 1){
         meta
     }
 }
-
 async function create(programmingLanguage){
     const result = await db.query(
         `INSERT INTO programming_languages 
@@ -62,9 +62,51 @@ async function remove(id){
 
     return {message};
 }
+async function getById(id){
+    const rows = await db.query(
+        `SELECT id, name, released_year, githut_rank, pypl_rank, tiobe_rank 
+    FROM programming_languages WHERE id=${id}`
+    );
+
+    return {
+        rows
+    }
+}
+
+async function getAll()
+{
+    ClassModel.findAll({
+        attributes: ["id", "title"]
+    }).then((result) => {
+        return result;
+    }).catch((error) => {
+        console.log(error);
+        return 'Error';
+    });
+}
+async function createData()
+{
+    ClassModel.create({
+        title: "Python",
+        subtitle: "Debug",
+        content: "Some Content",
+    })
+    .then((result) => {
+           return "Record created successfully!";
+
+    })
+    .catch((error) => {
+        console.log(error);
+        return  "Unable to create a record!";
+    });
+}
 
 module.exports = {
     getMultiple,
     create,
     update,
+    remove,
+    getById,
+    getAll,
+    createData
 }
