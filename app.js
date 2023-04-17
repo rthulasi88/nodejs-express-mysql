@@ -4,8 +4,8 @@ const app = express();
 const port = 3000;
 
 const programmingLanguagesRouter = require("./routes/programmingLanguages");
-
 const ClassModel = require("./Models/Class");
+
 app.use(express.json());
 app.use(
     express.urlencoded({
